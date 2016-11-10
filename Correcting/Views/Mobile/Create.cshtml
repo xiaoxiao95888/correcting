@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<div class="topbar">
+    <div class="return" ui-sref="detail({reload: false })"></div>
+    <div class="menutitle">新增分院</div>
+</div>
+<div style="position:absolute;width:100%;padding-bottom: 2rem;">
+    <div class="weui-cells__title">基本信息</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">所属总院</label></div>
+            <div class="weui-cell__bd">
+                <p ng-show="Institution.Parent!=null">{{CreateInstitution.Parent.Name}}</p>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">单位名称</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入名称" type="text" ng-model="CreateInstitution.Name">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">电话号码</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入电话号码" type="tel" ng-model="CreateInstitution.TelNum">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title">地理信息</div>
+    <div class="weui-cells">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">省份区县</label></div>
+            <div class="weui-cell__bd" ng-click="selectLocation()">
+                {{CreateInstitution.LocationName!=null?CreateInstitution.LocationName:'请选择'}}
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">通讯地址</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入通讯地址" type="text" ng-model="CreateInstitution.Address">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title">其他信息</div>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+                <label for="" class="weui-label">医院等级</label>
+            </div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" ng-model="CreateInstitution.LevelName" ng-options="l.name as l.name for l in levels">
+                    <option value="">选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">医院性质</label></div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" ng-model="CreateInstitution.Nature" ng-options="l.name as l.name for l in natures">
+                    <option value="">选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">医院属性</label></div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" ng-model="CreateInstitution.Attribute" ng-options="l.name as l.name for l in attributes">
+                    <option value="">选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd"><label class="weui-label">机构类型</label></div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" ng-model="CreateInstitution.InstitutionType" ng-options="l.name as l.name for l in insTypes">
+                    <option value="">选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">专科方向</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入" type="text" ng-model="CreateInstitution.SpecializedDepartment">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">总床位数</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入" type="number" pattern="[0-9]*" ng-model="CreateInstitution.Beds">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">2015年总门诊人数</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" placeholder="请输入" type="number" pattern="[0-9]*" ng-model="CreateInstitution.Outpatients">
+            </div>
+        </div>
+    </div>
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="javascript:;" ng-click="createsave()" class="weui-btn weui-btn_primary">保存</a>
+        </p>
+    </div>
+</div>
+<!--BEGIN warning dialog-->
+<div class="js_dialog ng-hide" id="warning" ng-show="warningdialog.show">
+    <div class="weui-mask"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__bd"><i class="weui-icon-warn"></i>{{warningdialog.content}}</div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" ng-click="warningdialogconfirm()">知道了</a>
+        </div>
+    </div>
+</div>
+<!--END warning dialog-->
+<div id="toast" ng-show="tips">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-icon-success-no-circle weui-icon_toast weui-icon-success-circle"></i>
+        <p class="weui-toast__content">已完成</p>
+    </div>
+</div>
+<!--end toast-->

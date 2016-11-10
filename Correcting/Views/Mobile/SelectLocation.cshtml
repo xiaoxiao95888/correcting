@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+<div class="topbar">
+    <div class="return" ng-click="cancel()"></div>
+    <div class="menutitle">选择地理信息</div>
+</div>
+<div style="position:absolute;width:100%">
+    <div class="weui-tab">
+        <div class="weui-navbar">
+            <div class="weui-navbar__item" ng-repeat="item in Tabs" ng-click="tab(item)">
+                {{item.Name}}
+            </div>
+            <div class="weui-navbar__item weui-bar__item_on">
+                请选择
+            </div>
+        </div>
+        <div class="weui-tab__panel">
+            <div class="weui-cells" style="margin-top: 0px;">
+                <div class="weui-cell" ng-repeat="item in SelectedLocations">
+                    <div class="weui-cell__bd">
+                        <p ng-click="select(item)">{{item.Name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loadingToast" ng-show="loading">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">数据加载中</p>
+        </div>
+    </div>
+</div>
