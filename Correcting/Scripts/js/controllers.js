@@ -246,26 +246,32 @@ angular.module('starter.controllers', [])
     }
     //选中总院
     $scope.selected = function (model) {
+        var doit = function(){
+            $scope.tips = true;
+            $scope.rootIns.Parent = {
+                Id: model.Id,
+                Name: model.Name
+            }
+            $timeout(function () {
+                $scope.searchresult = {};
+                $scope.tips = false;
+                $state.go('detail', { reload: false });
+            }, 1000)
+        }
+        if ($scope.rootIns.Childrens.length === 0) {
+            doit();
+        }
         for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
-            if ($scope.rootIns.Childrens[i].Name == model.Name) {
+            if ($scope.rootIns.Childrens[i].Name === model.Name) {
                 break;
             }
-            if ($scope.rootIns.Parent != null) {
-                if ($scope.rootIns.Parent.Id == model.Id) {
+            if ($scope.rootIns.Parent!==null) {
+                if ($scope.rootIns.Parent.Id === model.Id) {
                     break;
                 }
             }
-            if (i == $scope.rootIns.Childrens.length - 1) {
-                $scope.tips = true;
-                $scope.rootIns.Parent = {
-                    Id: model.Id,
-                    Name: model.Name
-                }
-                $timeout(function () {
-                    $scope.searchresult = {};
-                    $scope.tips = false;
-                    $state.go('detail', { reload: false });
-                }, 1000)
+            if (i === $scope.rootIns.Childrens.length - 1) {
+                doit();
             }
         }
     }
