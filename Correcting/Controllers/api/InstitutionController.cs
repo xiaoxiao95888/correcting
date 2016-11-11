@@ -12,21 +12,22 @@ namespace Correcting.Controllers.api
     {
         private readonly IInstitutionService _institutionService;
         private readonly ICorrectingInsService _correctingInsService;
+        private readonly IEmployeeService _employeeService;
         public static readonly int perpage = Convert.ToInt32(ConfigurationManager.AppSettings["PerPage"]);
-        public InstitutionController(IInstitutionService institutionService, ICorrectingInsService correctingInsService)
+        public InstitutionController(IInstitutionService institutionService, ICorrectingInsService correctingInsService, IEmployeeService employeeService)
         {
             _institutionService = institutionService;
             _correctingInsService = correctingInsService;
+            _employeeService = employeeService;
         }
 
         public object Get(Guid id)
         {
             var model = _institutionService.GetInstitution(id);
             if (model != null)
-            {
-                var correctingIns = _correctingInsService.GetCorrectingInsByOriginalId(model.Id);
-
-                var parent = correctingIns != null ? _institutionService.GetInstitution(correctingIns.ParentId.Value) : null;
+            {                
+                var correctingIns = _correctingInsService.GetCorrectingInss().FirstOrDefault(n=>n.OriginalId==model.Id);
+                var parent = (correctingIns != null && correctingIns.ParentId != null) ? _institutionService.GetInstitution(correctingIns.ParentId.Value) : null;
                 var childrens = _correctingInsService.GetCorrectingInss().Where(n => n.ParentId == model.Id).Select(n => new InstitutionModel { Id = n.Id, Name = n.Name }).ToArray();
 
                 return new InstitutionModel

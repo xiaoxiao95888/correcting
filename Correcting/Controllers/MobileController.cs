@@ -49,6 +49,10 @@ namespace Correcting.Controllers
         {
             return View();
         }
+        public ActionResult ScoreBoard()
+        {
+            return View();
+        }
         public ActionResult Login(LoginModel model)
         {
             if (User.Identity.IsAuthenticated)

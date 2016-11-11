@@ -8,6 +8,28 @@ namespace Correcting
         // 有关绑定的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            //angular
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/Scripts/angular.min.js",
+                "~/Scripts/angular-ui-router.min.js",
+                "~/Scripts/angular-animate.min.js"));
+            //weui
+            bundles.Add(new StyleBundle("~/Content/weui").Include(
+             "~/Content/weui.css"));
+            //main
+            bundles.Add(new ScriptBundle("~/bundles/main").Include(
+                "~/Scripts/js/services.js",
+                "~/Scripts/js/directive.js",
+                "~/Scripts/js/controllers.js",
+                "~/Scripts/js/app.js" 
+            ));            
+            //admin
+            bundles.Add(new ScriptBundle("~/bundles/admin").Include(
+                "~/Scripts/adminjs/services.js",
+                "~/Scripts/adminjs/controllers.js",
+                "~/Scripts/adminjs/app.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -29,21 +51,7 @@ namespace Correcting
 
             bundles.Add(new StyleBundle("~/Content/mobile").Include(
                       "~/Content/mobile.css"));
-            //angular
-            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                "~/Scripts/angular.js",
-                "~/Scripts/angular-ui-router.js",
-                "~/Scripts/angular-animate.js"));
-            //weui
-            bundles.Add(new StyleBundle("~/Content/weui").Include(
-             "~/Content/weui.css"));
-            //main
-            bundles.Add(new ScriptBundle("~/bundles/main").Include(
-                "~/Scripts/js/app.js",
-                "~/Scripts/js/controllers.js",
-                "~/Scripts/js/services.js",
-                "~/Scripts/js/directive.js"
-          ));
+            
         }
     }
 }

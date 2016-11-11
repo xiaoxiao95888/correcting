@@ -1,5 +1,5 @@
-angular.module('starter', ['ui.router', 'ngAnimate', 'starter.controllers', 'starter.services', 'starter.directives'])
-  .config(function ($stateProvider, $urlRouterProvider) {
+angular.module('starter', ['ui.router', 'ngAnimate', 'starter.services', 'starter.directives', 'starter.controllers'])
+  .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
       $stateProvider
        .state('institutions', {
            url: '/',
@@ -38,8 +38,14 @@ angular.module('starter', ['ui.router', 'ngAnimate', 'starter.controllers', 'sta
           templateUrl: '/mobile/create',
           controller: 'DetailCtrl'
       })
+      .state('scoreboard', {
+          url: '/',         
+          templateUrl: '/mobile/scoreboard',
+          controller: 'ScoreBoardCtrl'
+      })
+
       // if none of the above states are matched, use this as the fallback
       $urlRouterProvider.otherwise('/');
-  })
+  }])
 
 

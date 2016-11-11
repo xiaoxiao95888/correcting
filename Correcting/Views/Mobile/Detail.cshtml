@@ -150,7 +150,7 @@
 </div>
 <!--END warning dialog-->
 <!--BEGIN toast-->
-<div id="toast" ng-show="tips">
+<div id="toast ng-hide" ng-show="tips">
     <div class="weui-mask_transparent"></div>
     <div class="weui-toast">
         <i class="weui-icon-success-no-circle weui-icon_toast weui-icon-success-circle"></i>
@@ -158,3 +158,10 @@
     </div>
 </div>
 <!--end toast-->
+<div id="loadingToast ng-hide" ng-show="loading">
+    <div class="weui-mask_transparent"></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">数据处理中</p>
+    </div>
+</div>

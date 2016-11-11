@@ -1,0 +1,127 @@
+﻿
+@{
+    Layout = null;
+}
+<h2>Admin</h2>
+
+<div class="row">
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>员工号</th>
+                <th>人员</th>
+                <th>医院名称</th>
+                <th>提交日期</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in List">
+                <td>{{item.EmployeeModel.Code}}</td>
+                <td>{{item.EmployeeModel.Name}}</td>
+                <td>
+                    <a href="#" ng-click="detail(item)">
+                        {{item.InstitutionModel.Name}}
+                    </a>
+                </td>
+                <td>{{item.DateTime}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="detaildialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">{{correctingIns.InstitutionModel.Name}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">单位名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Name'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">电话号码</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.TelNum'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">省份区县</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.LocationCode'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">通讯地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Address'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">医院等级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.LevelName'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">医院性质</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Nature'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">医院属性</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Attribute'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">机构类型</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.InstitutionType'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">专科方向</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.SpecializedDepartment'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">总床位数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Beds'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">2015年总门诊人数</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Outpatients'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属总院</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Parent.Name'>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">总院省份区县</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Parent.LocalName'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-class="delete()">删除</button>
+                <button type="button" class="btn btn-primary" ng-click="pass()">通过</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

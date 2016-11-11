@@ -1,5 +1,5 @@
 ﻿angular.module('starter.directives', [])
-.directive('searchInput', function ($parse) {
+.directive('searchInput',['$parse', function ($parse) {
     return {
         link: function (scope, element, attrs) {
             var model = $parse(attrs.searchInput);
@@ -15,23 +15,23 @@
             })
         }
     };
-})
-.directive("scroll", function ($window) {
+}])
+.directive("scroll", ['$window', function ($window) {
     return function (scope, element, attrs) {
         angular.element($window).bind("scroll", function () {
-            var t,h;
+            var t, h;
             if (document.documentElement && document.documentElement.scrollTop) {
-                t = document.documentElement.scrollTop;               
+                t = document.documentElement.scrollTop;
                 h = document.documentElement.scrollHeight;
             } else if (document.body) {
-                t = document.body.scrollTop;                
+                t = document.body.scrollTop;
                 h = document.body.scrollHeight;
             }
             if (t + document.documentElement.clientHeight == h) {
                 scope.turned();
-            }        
+            }
 
             scope.$apply();
         });
     };
-})
+}]);
