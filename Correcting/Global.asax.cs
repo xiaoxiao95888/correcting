@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Service;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -14,6 +16,9 @@ namespace Correcting
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+            Database.SetInitializer<SmcDataContext>(null);
+            Database.SetInitializer<DataContext>(null);
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

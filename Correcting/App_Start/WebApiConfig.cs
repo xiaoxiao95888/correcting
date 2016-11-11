@@ -6,7 +6,7 @@ namespace Correcting
     {
         public static void Register(HttpConfiguration config)
         {
-            config.EnableCors();
+            //config.EnableCors();
             // Web API 配置和服务
 
             // Web API 路由

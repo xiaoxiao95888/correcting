@@ -104,8 +104,11 @@ angular.module('starter.controllers', [])
               error = true;
           }
           $scope.warningdialog.show = error;
-          if (!error) {
-              alert("通过")
+          if (!error) {             
+              var promise = myInsService.postInstitution($scope.Institution);
+              promise.then(function (data) {
+                  
+              });
           }
       }
       //移除分院

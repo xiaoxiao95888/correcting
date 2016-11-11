@@ -29,23 +29,20 @@ namespace Correcting
 
             bundles.Add(new StyleBundle("~/Content/mobile").Include(
                       "~/Content/mobile.css"));
-            //zepto
-            bundles.Add(new ScriptBundle("~/bundles/zepto").Include(
-                  "~/Scripts/zepto.min.js"));
             //angular
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-         "~/Scripts/angular.js",
-         "~/Scripts/angular-ui-router.js",
-         "~/Scripts/angular-animate.js"));
+                "~/Scripts/angular.js",
+                "~/Scripts/angular-ui-router.js",
+                "~/Scripts/angular-animate.js"));
             //weui
             bundles.Add(new StyleBundle("~/Content/weui").Include(
              "~/Content/weui.css"));
             //main
             bundles.Add(new ScriptBundle("~/bundles/main").Include(
-          "~/Scripts/js/app.js",
-          "~/Scripts/js/controllers.js",
-          "~/Scripts/js/services.js",
-          "~/Scripts/js/directive.js"
+                "~/Scripts/js/app.js",
+                "~/Scripts/js/controllers.js",
+                "~/Scripts/js/services.js",
+                "~/Scripts/js/directive.js"
           ));
         }
     }

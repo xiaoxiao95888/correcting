@@ -11,6 +11,6 @@ namespace Correcting.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Title { get; set; }
-        public string Headimgurl { get; set; }
+        public string HeadImgUrl { get; set; }
     }
 }

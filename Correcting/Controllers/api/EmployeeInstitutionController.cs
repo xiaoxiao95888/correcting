@@ -7,6 +7,8 @@ using System.Web.Http;
 using Library.Services;
 using Correcting.Models;
 using Correcting.Infrastructure;
+using System.Web;
+using System.Security.Claims;
 
 namespace Correcting.Controllers.api
 {
@@ -19,7 +21,8 @@ namespace Correcting.Controllers.api
         }
         public object Get()
         {
-            var emp = _employeeService.GetEmployees().Where(n => !n.IsDeleted).Where(n => n.Code == "S0598").FirstOrDefault();
+            var user = User.Identity.GetEmoloyee();
+            var emp = _employeeService.GetEmployees().Where(n => !n.IsDeleted).Where(n => n.Code == user.Code).FirstOrDefault();
             var model = new EmployeeInstiutionModel
             {
                 EmployeeModel = new EmployeeModel
@@ -27,7 +30,8 @@ namespace Correcting.Controllers.api
                     Id = emp.Id,
                     Name = emp.Name,
                     Title = emp.Title,
-                    Code = emp.Code
+                    Code = emp.Code,
+                    HeadImgUrl = user.HeadImgUrl
                 },
                 InstitutionModels = emp.EmployeeTerritories.Where(p => p.StartDate <= DateTime.Now && (p.EndDate >= DateTime.Now || p.EndDate == null)).SelectMany(p => p.Territory.TerritorySalesPositions.Where(s => s.IsDeleted == false && s.IsDeleted == false && s.StartDate <= DateTime.Now && (s.EndDate == null || s.EndDate >= DateTime.Now) && s.SalesPosition.Institution.IsDeleted == false && s.SalesPosition.Institution.IsApproved)).Select(p => new InstitutionModel
                 {
@@ -38,6 +42,6 @@ namespace Correcting.Controllers.api
                 }).ToArray()
             };
             return model;
-        } 
+        }
     }
 }

@@ -39,6 +39,19 @@ angular.module('starter.services', [])
           })
           return deferred.promise;
       }
+      this.postInstitution = function (institution) {
+          var deferred = $q.defer();
+          $http({
+              method: 'get',
+              data:institution,
+              url: '/api/CorrectingIns'
+          }).success(function (data) {
+              deferred.resolve(data);
+          }).error(function () {
+              deferred.reject('There was an error')
+          })
+          return deferred.promise;
+      }
   })
  .service('cacheService', function () {
      var rootIns = {};

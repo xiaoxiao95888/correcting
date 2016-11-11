@@ -15,57 +15,46 @@ namespace Correcting.Infrastructure.Filters
     public class CustomAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(HttpActionContext filterContext)
-        {            
+        {
             bool valid;
-            IEnumerable<string> arr;
-            filterContext.Request.Headers.TryGetValues("Authorization", out arr);
-            if (arr == null)
+            var errormessage = string.Empty;
+            try
+            {
+                var random = filterContext.Request.Headers.GetValues("Random").FirstOrDefault();
+                var signature = filterContext.Request.Headers.GetValues("Signature").FirstOrDefault();
+                var requestTime = filterContext.Request.Headers.GetValues("RequestTime").FirstOrDefault();
+                var time = Convert.ToDateTime(requestTime);
+                if (DateTime.Now.AddHours(-10) > time)
+                {
+                    throw new Exception("overtime");
+                }
+                CheckToken(random, signature, requestTime, out valid);
+            }
+            catch (Exception ex)
             {
                 valid = false;
-            }
-            else
-            {
-                var token = arr.FirstOrDefault();
-                CheckToken(token, out valid);
+                errormessage = ex.Message;
             }
             if (!valid)
-            {                
-                var errorResponse = filterContext.Request.CreateResponse(HttpStatusCode.Unauthorized);//InternalServerError
+            {
+                var errorResponse = filterContext.Request.CreateResponse(HttpStatusCode.Unauthorized, errormessage);//InternalServerError
                 filterContext.Response = errorResponse;
                 return;
             }
-
             base.OnActionExecuting(filterContext);
 
         }
-        private static void CheckToken(string token, out bool valid)
+        private static void CheckToken(string random, string signature, string requestTime, out bool valid)
         {
             valid = false;
             try
             {
-                var bpath = Convert.FromBase64String(token);
-                token = System.Text.Encoding.Default.GetString(bpath);
-                var jsonStr = "{'" + token.Replace("&", "','").Replace("=", "':'") + "'}";
-                var serializer = new JavaScriptSerializer();
-                var objs = serializer.Deserialize<SignatureModel>(jsonStr);
-                var secret = ConfigurationManager.AppSettings["Secret"];               
-                var startDateTime = DateTime.Now;
-                var endDateTime = startDateTime.AddSeconds(30);
-                while (endDateTime >= startDateTime)
+                var secret = ConfigurationManager.AppSettings["Secret"];
+                var selfsignature = SHA1_Hash(random + requestTime + secret);
+                if (selfsignature == signature.ToUpper())
                 {
-                    var signature = SHA1_Hash(objs.Random + endDateTime.ToString("yyyy-M-dd H:mm:ss") + secret);
-                    if (objs.Signature.ToUpper() == signature)
-                    {
-                        valid = true;
-                        break;
-                    }
-                    //if (objs.signature.ToUpper() != signature) return;
-                    //valid = true;
-                    //var identity = new CustomIdentity(user);
-                    //var principal = new CustomPrincipal(identity);
-                    //HttpContext.Current.User = principal;
-                    endDateTime = endDateTime.AddSeconds(-1);
-                }
+                    valid = true;
+                }                
             }
             catch (Exception)
             {
