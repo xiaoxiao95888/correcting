@@ -102,26 +102,29 @@ angular.module('starter.controllers', [])
                     $state.go('detail', { reload: false });
                 }, 1000)
             }
-            if ($scope.Institution.Childrens.length == 0) {
-                if ($scope.Institution.Name != $scope.CreateInstitution.Name) {
-                    doit();
+            if ($scope.Institution.Parent != null) {
+                if ($scope.Institution.Parent.Name === $scope.CreateInstitution.Name) {
+                    error = true;
                 }
-
-            } else {
-                for (var i = 0; i < $scope.Institution.Childrens.length; i++) {
-                    if ($scope.Institution.Childrens[i].Name == $scope.CreateInstitution.Name) {
-                        break;
-                    }
-                    if ($scope.Institution.Parent != null) {
-                        if ($scope.Institution.Parent.Id == $scope.CreateInstitution.Id) {
+            }
+            if ($scope.Institution.Name === $scope.CreateInstitution.Name) {
+                error = true;
+            }
+            if (!error) {
+                if ($scope.Institution.Childrens.length === 0) {
+                    doit();
+                } else {
+                    for (var i = 0; i < $scope.Institution.Childrens.length; i++) {
+                        if ($scope.Institution.Childrens[i].Name === $scope.CreateInstitution.Name) {
                             break;
+                        }                        
+                        if (i === $scope.Institution.Childrens.length - 1) {
+                            doit();
                         }
-                    }
-                    if (i == $scope.Institution.Childrens.length - 1) {
-                        doit();
                     }
                 }
             }
+            
         }
     }
     //提交保存到数据库
@@ -246,7 +249,7 @@ angular.module('starter.controllers', [])
     }
     //选中总院
     $scope.selected = function (model) {
-        var doit = function(){
+        var doit = function () {
             $scope.tips = true;
             $scope.rootIns.Parent = {
                 Id: model.Id,
@@ -258,21 +261,25 @@ angular.module('starter.controllers', [])
                 $state.go('detail', { reload: false });
             }, 1000)
         }
-        if ($scope.rootIns.Childrens.length === 0) {
-            doit();
+        var error = false;
+        if ($scope.rootIns.Id === model.Id || $scope.rootIns.Name === model.Name) {
+            error = true;
         }
-        for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
-            if ($scope.rootIns.Childrens[i].Name === model.Name) {
-                break;
-            }
-            if ($scope.rootIns.Parent!==null) {
-                if ($scope.rootIns.Parent.Id === model.Id) {
-                    break;
-                }
-            }
-            if (i === $scope.rootIns.Childrens.length - 1) {
+        if ($scope.rootIns.Childrens.length === 0) {
+            if (!error) {
                 doit();
             }
+        } else {
+            if (!error) {
+                for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
+                    if ($scope.rootIns.Childrens[i].Name === model.Name) {
+                        break;
+                    }
+                    if (i === $scope.rootIns.Childrens.length - 1) {
+                        doit();
+                    }
+                }
+            }            
         }
     }
     //删除总院
@@ -296,23 +303,30 @@ angular.module('starter.controllers', [])
                 $state.go('detail', { reload: false });
             }, 1000)
         }
-        if ($scope.rootIns.Childrens.length == 0 && $scope.rootIns.Id != model.Id && $scope.rootIns.Name != model.Name) {
-            doit();
-        } else {
-            for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
-                if ($scope.rootIns.Childrens[i].Name == model.Name) {
-                    break;
-                }
-                if ($scope.rootIns.Parent != null) {
-                    if ($scope.rootIns.Parent.Id == model.Id) {
+        var error = false;
+        if ($scope.rootIns.Id === model.Id || $scope.rootIns.Name === model.Name) {
+            error = true;
+        }
+        if ($scope.rootIns.Parent !== null) {
+            if ($scope.rootIns.Parent.Id === model.Id || $scope.rootIns.Parent.Name === model.Name) {
+                error = true;
+            }
+        }
+        if (!error) {
+            if ($scope.rootIns.Childrens.length === 0) {
+                doit();
+            } else {
+                for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
+                    if ($scope.rootIns.Childrens[i].Name === model.Name) {
                         break;
+                    }                    
+                    if (i === $scope.rootIns.Childrens.length - 1) {
+                        doit();
                     }
-                }
-                if (i == $scope.rootIns.Childrens.length - 1) {
-                    doit();
                 }
             }
         }
+
     }
     //新增分院
     $scope.createchildren = function () {
