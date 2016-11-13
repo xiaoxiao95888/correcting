@@ -45,10 +45,7 @@ namespace Correcting.Controllers
         {
             return View();
         }
-        public ActionResult LoginTest()
-        {
-            return View();
-        }
+        
         public ActionResult ScoreBoard()
         {
             return View();
@@ -71,10 +68,10 @@ namespace Correcting.Controllers
             }
             if (valid)
             {
-                if (DateTime.Now.AddHours(-10) > time)
-                {
-                    valid = false;
-                }
+                //if (DateTime.Now.AddHours(-10) > time)
+                //{
+                //    valid = false;
+                //}
             }
             if (valid)
             {

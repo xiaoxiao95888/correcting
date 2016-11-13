@@ -1,38 +1,45 @@
 angular.module('starter.controllers', [])
 .controller('adminCtrl', ['$scope', '$state', 'adminService', function ($scope, $state, adminService) {
     $scope.List = {};
+    //选中的
     $scope.correctingIns = {};
     //加载提示
     $scope.loading = true;
-    var promise = adminService.getCorrectingInss(); // 同步调用，获得承诺接口
-    promise.then(function (data) {  // 调用承诺API获取数据 .resolve
-        $scope.List = data;
-        $scope.loading = false;
-    });
+    //加载
+    $scope.load = function () {
+        var promise = adminService.getCorrectingInss(); // 同步调用，获得承诺接口
+        promise.then(function (data) {  // 调用承诺API获取数据 .resolve
+            $scope.List = data;
+            $scope.loading = false;
+        });
+    }
+    $scope.load();
+    $scope.update = function () {
+        var promise = adminService.correctingInsUpdate($scope.correctingIns); // 同步调用，获得承诺接口
+        promise.then(function () {  // 调用承诺API获取数据 .resolve           
+            $scope.loading = false;
+            $('#detaildialog').modal("hide");
+            $scope.load();
+        });
+    }
     //查看详细
     $scope.detail = function (item) {
         $scope.correctingIns = item;
         $('#detaildialog').modal({
             keyboard: false,
-            show: true
+            show: true,
+            backdrop: 'static'
         });
     }
-    $scope.warningdialog = { show: false, content: '' };
-    //警告框确定
-    $scope.warningdialogconfirm = function () {
-        $scope.warningdialog.show = false;
-        $scope.warningdialog.content = '';
+    //通过
+    $scope.pass = function () {
+        $scope.correctingIns.IsApproved = true;
+        $scope.update()
+        
     }
-  
-    ;    //$scope.redirectdetail = function (item) {
-    //    var promiseCheckCanEdit = myInsService.CheckCanEdit(item.Id);
-    //    promiseCheckCanEdit.then(function (data) {
-    //        if (data.Error) {
-    //            $scope.warningdialog.show = true;
-    //            $scope.warningdialog.content = data.Message;
-    //        } else {
-    //            $state.go("detail", { id: item.Id, reload: true });
-    //        }
-    //    });
-    //}
+    //删除
+    $scope.delete = function () {
+        $scope.correctingIns.IsDeleted = true;
+        $scope.update()
+    }
 }]);

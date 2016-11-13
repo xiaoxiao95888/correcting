@@ -92,11 +92,9 @@ angular.module('starter.controllers', [])
             //选中添加至分院List              
             var doit = function () {
                 $scope.tips = true;
-                $scope.Institution.Childrens.push({
-                    Id: $scope.CreateInstitution.Id,
-                    Name: $scope.CreateInstitution.Name,
-                    Checked: true
-                });
+                $scope.CreateInstitution.Checked=true;
+
+                $scope.Institution.Childrens.push($scope.CreateInstitution);
                 $timeout(function () {
                     $scope.tips = false;
                     $state.go('detail', { reload: false });

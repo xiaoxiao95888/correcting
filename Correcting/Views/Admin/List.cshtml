@@ -8,14 +8,17 @@
     <table class="table table-responsive">
         <thead>
             <tr>
+                <th>提交编号</th>
                 <th>员工号</th>
                 <th>人员</th>
                 <th>医院名称</th>
+                <th>是否新增</th>
                 <th>提交日期</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in List">
+                <td>{{item.TaskCode}}</td>
                 <td>{{item.EmployeeModel.Code}}</td>
                 <td>{{item.EmployeeModel.Name}}</td>
                 <td>
@@ -23,7 +26,8 @@
                         {{item.InstitutionModel.Name}}
                     </a>
                 </td>
-                <td>{{item.DateTime}}</td>
+                <td>{{item.WhetherToAdd?'是':'否'}}</td>
+                <td>{{item.DateTime | date:'yyyy-MM-dd hh:mm:ss'}}</td>
             </tr>
         </tbody>
     </table>
@@ -113,13 +117,13 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">总院省份区县</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Parent.LocalName'>
+                            <input type="text" class="form-control" ng-model='correctingIns.InstitutionModel.Parent.LocationName'>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-class="delete()">删除</button>
+                <button type="button" class="btn btn-default" ng-click="delete()">删除</button>
                 <button type="button" class="btn btn-primary" ng-click="pass()">通过</button>
             </div>
         </div><!-- /.modal-content -->

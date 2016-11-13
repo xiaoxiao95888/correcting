@@ -2,9 +2,12 @@
 @{
     ViewBag.Title = "Admin";
 }
+<div ng-app="starter">
+    <div ui-view="">
 
-<div ui-view="">
-
+    </div>
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/admin")
 </div>
 
 

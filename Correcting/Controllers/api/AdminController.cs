@@ -1,4 +1,5 @@
-﻿using Correcting.Models;
+﻿using Correcting.Infrastructure;
+using Correcting.Models;
 using Library.Services;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,6 @@ using System.Web.Http;
 
 namespace Correcting.Controllers.api
 {
-    [AllowAnonymous]
     public class AdminController : BaseApiController
     {
         private readonly IInstitutionService _institutionService;
@@ -23,37 +23,56 @@ namespace Correcting.Controllers.api
         }
         public object Get()
         {
-            var allData = _correctingInsService.GetCorrectingInss().ToList();
-            var models = allData.Select(n => new CorrectingInsModel
+            var user = User.Identity.GetEmoloyee();
+            if (user.Name == "admin")
             {
-                TaskId = n.TaskId,
-                EmployeeModel = new EmployeeModel { Name = n.EmpName, Code = n.EmpCode },
-                DateTime = n.DateTime,
-                InstitutionModel = new InstitutionModel
+                var allData = _correctingInsService.GetCorrectingInss().Where(n=>n.IsApproved!=true).OrderBy(n => n.DateTime).ToList();
+                var models = allData.Select(n => new CorrectingInsModel
                 {
-                    Id = n.OriginalId.Value,
-                    Name = n.Name,
-                    TelNum = n.TelNum,
-                    LocationCode = n.LocationCode,
-                    LocationName = n.LocationName,
-                    Address = n.Address,
-                    SpecializedDepartment = n.InsSpecializedDepartment,
-                    LevelName = n.InsLevel,
-                    Nature = n.InsNature,
-                    Attribute = n.InsAttribute,
-                    InstitutionType = n.InsType,
-                    Beds = n.Beds,
-                    Outpatients = n.Outpatients,
-                    Parent = n.ParentId != null ? allData.Where(a => a.OriginalId == n.ParentId).Select(a => new InstitutionModel
+                    Id = n.Id,
+                    TaskId = n.TaskId,
+                    TaskCode = n.TaskCode,
+                    EmployeeModel = new EmployeeModel { Name = n.EmpName, Code = n.EmpCode },
+                    DateTime = n.DateTime,
+                    InstitutionModel = new InstitutionModel
                     {
-                        Name = a.Name,
-                        LocationName = a.LocationName,
-                    }).FirstOrDefault() : null
-                },
-                IsApproved = n.IsApproved,
-                IsDeleted = n.IsDeleted
-            });
-            return models;
+                        Name = n.Name,
+                        TelNum = n.TelNum,
+                        LocationCode = n.LocationCode,
+                        LocationName = n.LocationName,
+                        Address = n.Address,
+                        SpecializedDepartment = n.InsSpecializedDepartment,
+                        LevelName = n.InsLevel,
+                        Nature = n.InsNature,
+                        Attribute = n.InsAttribute,
+                        InstitutionType = n.InsType,
+                        Beds = n.Beds,
+                        Outpatients = n.Outpatients,
+                        Parent = n.ParentId != null ? new InstitutionModel { Name = n.ParentInstitution.Name, LocationName = n.ParentInstitution.LocationName } : null
+
+                    },
+                    WhetherToAdd = n.OriginalId == null,
+                    IsApproved = n.IsApproved,
+                    IsDeleted = n.IsDeleted
+                });
+                return models;
+            }
+            return null;
+        }
+        public object Post(CorrectingInsModel model)
+        {
+            var user = User.Identity.GetEmoloyee();
+            if (user.Name == "admin")
+            {
+                var item = _correctingInsService.GetCorrectingIns(model.Id);
+                if (item != null)
+                {
+                    item.IsApproved = model.IsApproved;
+                    item.IsDeleted = model.IsDeleted;
+                    _correctingInsService.Update();
+                }
+            }
+            return null;
         }
     }
 }

@@ -45,6 +45,7 @@ namespace Correcting.Controllers.api
                 }
             }
             var taskId = Guid.NewGuid();
+            var taskCode = _correctingInsService.GetMaxTaskCode() + 1;
             //先添加childs
             if (model.Childrens != null)
             {
@@ -53,6 +54,7 @@ namespace Correcting.Controllers.api
                     _correctingInsService.Insert(new CorrectingIns
                     {
                         Id = Guid.NewGuid(),
+                        TaskCode= taskCode,
                         TaskId = taskId,
                         OriginalId = child.Id == Guid.Empty ? (Guid?)null : child.Id,
                         Name = child.Name != null ? child.Name : null,
@@ -81,6 +83,7 @@ namespace Correcting.Controllers.api
                 Id = Guid.NewGuid(),
                 IsPrimary = true,
                 TaskId = taskId,
+                TaskCode = taskCode,
                 OriginalId = model.Id,
                 Name = model.Name,
                 Address = model.Address != null ? model.Address : null,

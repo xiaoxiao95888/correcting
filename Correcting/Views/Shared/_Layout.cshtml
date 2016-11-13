@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="starter">
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -25,7 +25,7 @@
                     <li>@Html.ActionLink("关于", "About", "Home")</li>
                     <li>@Html.ActionLink("联系方式", "Contact", "Home")</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @*@Html.Partial("_LoginPartial")*@
             </div>
         </div>
     </div>
@@ -39,8 +39,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/admin")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
