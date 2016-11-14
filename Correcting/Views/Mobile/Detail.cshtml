@@ -1,7 +1,6 @@
 ﻿@{
     Layout = null;
 }
-
 <div class="topbar">
     <div class="return" ui-sref="institutions"></div>
     <div class="menutitle">修正终端信息</div>
@@ -37,12 +36,21 @@
             </div>
         </div>
     </div>
-
     <div class="weui-cells__title">其他信息</div>
     <div class="weui-cells">
         <div class="weui-cell weui-cell_select weui-cell_select-after">
             <div class="weui-cell__hd">
-                <label for="" class="weui-label">医院等级</label>
+                <label for="" class="weui-label">医院级别</label>
+            </div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" ng-model="Institution.TierName" ng-options="l.name as l.name for l in tiers">
+                    <option value="">选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+                <label for="" class="weui-label">医院等次</label>
             </div>
             <div class="weui-cell__bd">
                 <select class="weui-select" ng-model="Institution.LevelName" ng-options="l.name as l.name for l in levels">
@@ -98,7 +106,6 @@
                 <p ng-show="Institution.Parent==null">请选择</p>
                 <p ng-show="Institution.Parent!=null">{{Institution.Parent.Name}}</p>
             </div>
-
         </div>
     </div>
     <div class="weui-cells__title">
@@ -109,7 +116,10 @@
         </span>
     </div>
     <div class="weui-cells weui-cells_checkbox">
-        <label class="weui-cell weui-check__label" ng-repeat="item in Institution.Childrens">
+        <div class="weui-loadmore weui-loadmore_line" ng-show="Institution.Childrens.length==0" style="">
+            <span class="weui-loadmore__tips">无下属分院,您可以点击选择添加下属分院</span>
+        </div>
+        <label class="weui-cell weui-check__label" ng-repeat="item in Institution.Childrens" ng-show="Institution.Childrens.length!=0">
             <span class="weui-cell__hd">
                 <input class="weui-check" name="checkbox1" type="checkbox" ng-model="item.Checked" ng-click="removechildren(item)">
                 <i class="weui-icon-checked"></i>
@@ -142,7 +152,7 @@
 <div class="js_dialog ng-hide" id="warning" ng-show="warningdialog.show">
     <div class="weui-mask"></div>
     <div class="weui-dialog">
-        <div class="weui-dialog__bd"><i class="weui-icon-warn"></i>{{warningdialog.title}}</div>
+        <div class="weui-dialog__bd"><i class="weui-icon-warn"></i>{{warningdialog.content}}</div>
         <div class="weui-dialog__ft">
             <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" ng-click="warningdialogconfirm()">知道了</a>
         </div>

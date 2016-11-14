@@ -43,6 +43,7 @@ namespace Correcting.Controllers.api
                         Address = n.Address,
                         SpecializedDepartment = n.InsSpecializedDepartment,
                         LevelName = n.InsLevel,
+                        TierName=n.InsTier,
                         Nature = n.InsNature,
                         Attribute = n.InsAttribute,
                         InstitutionType = n.InsType,

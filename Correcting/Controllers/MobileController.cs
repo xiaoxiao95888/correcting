@@ -97,6 +97,7 @@ namespace Correcting.Controllers
                         //HttpContext.User = principal;
                         var identity = UserService.CreateIdentity(employeeModel, DefaultAuthenticationTypes.ApplicationCookie);
                         HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+                        
                         return RedirectToAction("Index");
                     }
                 }

@@ -36,9 +36,13 @@ namespace Correcting.Models
         /// </summary>
         public string SpecializedDepartment  { get; set; }
         /// <summary>
-        /// 医院等级
+        /// 医院等次
         /// </summary>       
-        public string LevelName { get; set; }        
+        public string LevelName { get; set; }
+        /// <summary>
+        /// 医院级别
+        /// </summary>       
+        public string TierName { get; set; }
         /// <summary>
         /// 机构性质(公立、民营)
         /// </summary>

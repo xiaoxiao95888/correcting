@@ -6,6 +6,9 @@ angular.module('starter.controllers', [])
     promise.then(function (data) {  // 调用承诺API获取数据 .resolve
         $scope.EmployeeInstitution = data;
         $scope.loading = false;
+        if ($scope.EmployeeInstitution.InstitutionModels.length == 0) {
+            $state.go("scoreboard");
+        }
     });
 
     $scope.warningdialog = { show: false, content: '' };
@@ -43,19 +46,34 @@ angular.module('starter.controllers', [])
         $scope.CreateInstitution = cacheService.getCreateIns();
     }
 
-    //医院等级选项
+    //医院等次选项
     $scope.levels = [
-        { name: '三级特等' },
-        { name: '三级甲等' },
-        { name: '三级乙等' },
-        { name: '三级丙等' },
-        { name: '二级甲等' },
-        { name: '二级乙等' },
-        { name: '二级丙等' },
-        { name: '一级甲等' },
-        { name: '一级乙等' },
-        { name: '一级丙等' },
+        { name: '特等' },
+        { name: '甲等' },
+        { name: '乙等' },
+        { name: '丙等' },
+        { name: '无等次' }
     ];
+    //医院级别选项
+    $scope.tiers = [
+        { name: '三级' },
+        { name: '二级' },
+        { name: '一级' },
+        { name: '无级别' }
+    ];
+    ////医院级别范围
+    //$scope.levelrang = [
+    //    { name: '三级特等' },
+    //    { name: '三级甲等' },
+    //    { name: '三级乙等' },
+    //    { name: '三级丙等' },
+    //    { name: '二级甲等' },
+    //    { name: '二级乙等' },
+    //    { name: '二级丙等' },
+    //    { name: '一级甲等' },
+    //    { name: '一级乙等' },
+    //    { name: '一级丙等' }
+    //]
     //医院性质选项
     $scope.natures = [
         { name: '公立' },
@@ -87,12 +105,17 @@ angular.module('starter.controllers', [])
             $scope.warningdialog.content = "省份区县不能为空";
             error = true;
         }
+        //医院等级选择的判断
+        if ($scope.CreateInstitution.LevelName == "特等" && $scope.CreateInstitution.TierName != "三级") {
+            $scope.warningdialog.content = "不存在此类医院等次级别";
+            error = true;
+        }       
         $scope.warningdialog.show = error;
         if (!error) {
             //选中添加至分院List              
             var doit = function () {
                 $scope.tips = true;
-                $scope.CreateInstitution.Checked=true;
+                $scope.CreateInstitution.Checked = true;
 
                 $scope.Institution.Childrens.push($scope.CreateInstitution);
                 $timeout(function () {
@@ -115,14 +138,14 @@ angular.module('starter.controllers', [])
                     for (var i = 0; i < $scope.Institution.Childrens.length; i++) {
                         if ($scope.Institution.Childrens[i].Name === $scope.CreateInstitution.Name) {
                             break;
-                        }                        
+                        }
                         if (i === $scope.Institution.Childrens.length - 1) {
                             doit();
                         }
                     }
                 }
             }
-            
+
         }
     }
     //提交保存到数据库
@@ -136,6 +159,12 @@ angular.module('starter.controllers', [])
             $scope.warningdialog.content = "省份区县不能为空";
             error = true;
         }
+        //医院等级选择的判断
+        if ($scope.Institution.LevelName == "特等" && $scope.Institution.TierName != "三级") {            
+            $scope.warningdialog.content = "不存在此类医院等次级别";
+            error = true;
+        }
+       
         $scope.warningdialog.show = error;
         if (!error) {
             $scope.loading = true;
@@ -277,7 +306,7 @@ angular.module('starter.controllers', [])
                         doit();
                     }
                 }
-            }            
+            }
         }
     }
     //删除总院
@@ -317,7 +346,7 @@ angular.module('starter.controllers', [])
                 for (var i = 0; i < $scope.rootIns.Childrens.length; i++) {
                     if ($scope.rootIns.Childrens[i].Name === model.Name) {
                         break;
-                    }                    
+                    }
                     if (i === $scope.rootIns.Childrens.length - 1) {
                         doit();
                     }
