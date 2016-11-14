@@ -68,10 +68,11 @@ namespace Correcting.Controllers
             }
             if (valid)
             {
-                //if (DateTime.Now.AddHours(-10) > time)
-                //{
-                //    valid = false;
-                //}
+               var requestTimeOut = Convert.ToInt32(ConfigurationManager.AppSettings["RequestTimeOut"]);
+                if (DateTime.Now.AddSeconds(-requestTimeOut) > time)
+                {
+                    valid = false;
+                }
             }
             if (valid)
             {
