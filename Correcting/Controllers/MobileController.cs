@@ -52,10 +52,7 @@ namespace Correcting.Controllers
         }
         public ActionResult Login(LoginModel model)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index");
-            }
+            
             bool valid = true;
             DateTime time = DateTime.Now;
             if (model == null || string.IsNullOrEmpty(model.EmployeeCode) || string.IsNullOrEmpty(model.HeadimgUrl) || string.IsNullOrEmpty(model.Random) || string.IsNullOrEmpty(model.RequestTime) || string.IsNullOrEmpty(model.Signature))
@@ -100,6 +97,10 @@ namespace Correcting.Controllers
                     }
                 }
 
+            }
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index");
             }
             return View();
         }
