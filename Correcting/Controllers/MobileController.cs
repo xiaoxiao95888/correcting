@@ -55,7 +55,11 @@ namespace Correcting.Controllers
             
             bool valid = true;
             DateTime time = DateTime.Now;
-            if (model == null || string.IsNullOrEmpty(model.EmployeeCode) || string.IsNullOrEmpty(model.HeadimgUrl) || string.IsNullOrEmpty(model.Random) || string.IsNullOrEmpty(model.RequestTime) || string.IsNullOrEmpty(model.Signature))
+            if (string.IsNullOrEmpty(model.HeadimgUrl))
+            {
+                model.HeadimgUrl = "/content/images/HeadimgUrl.jpg";
+            }
+            if (model == null || string.IsNullOrEmpty(model.EmployeeCode) || string.IsNullOrEmpty(model.Random) || string.IsNullOrEmpty(model.RequestTime) || string.IsNullOrEmpty(model.Signature))
             {
                 valid = false;
             }
