@@ -5,8 +5,18 @@
     <div class="return" ui-sref="institutions"></div>
     <div class="menutitle">积分榜(前20位)</div>
 </div>
-<div style="position:absolute;width:100%; padding-bottom: 2rem;">
-    <div class="ng-hide" ng-show="!loading">        
+
+<div style="position:absolute;width:100%; padding-bottom: 2rem;">   
+    <div class="ng-hide" ng-show="!loading">   
+        <div>
+            <div class="weui-loadmore weui-loadmore_line">
+                <span class="weui-loadmore__tips">积分规则</span>
+                <p>每条纠错信息经过审核后积1分</p>
+            </div>
+            @*<div class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+                <span class="weui-loadmore__tips"></span>
+            </div>*@
+        </div>     
         <div class="ng-hide" ng-show="ScoreBoards.length!=null">
             <div class="weui-cells">
                 <div class="weui-cell" ng-repeat="item in ScoreBoards">
