@@ -51,7 +51,7 @@
                     <tbody>
                         <tr>
                             <td>单位名称</td>
-                            <td>{{correctingIns.InstitutionModel.Name}}</td>
+                            <td ng-class="{true:'text-danger'}[correctingIns.InstitutionModel.Name!=correctingIns.OriginalInstitutionModel.Name]">{{correctingIns.InstitutionModel.Name}}</td>
                             <td>{{correctingIns.OriginalInstitutionModel.Name}}</td>
                         </tr>
                         <tr>
@@ -60,9 +60,14 @@
                             <td>{{correctingIns.OriginalInstitutionModel.TelNum}}</td>
                         </tr>
                         <tr>
-                            <td>省份区县</td>
+                            <td>省份区县编号</td>
                             <td ng-class="{true:'text-danger'}[correctingIns.InstitutionModel.LocationCode!=correctingIns.OriginalInstitutionModel.LocationCode]">{{correctingIns.InstitutionModel.LocationCode}}</td>
                             <td>{{correctingIns.OriginalInstitutionModel.LocationCode}}</td>
+                        </tr>
+                        <tr>
+                            <td>省份区县</td>
+                            <td ng-class="{true:'text-danger'}[correctingIns.InstitutionModel.LocationName!=correctingIns.OriginalInstitutionModel.LocationName]">{{correctingIns.InstitutionModel.LocationName}}</td>
+                            <td>{{correctingIns.OriginalInstitutionModel.LocationName}}</td>
                         </tr>
                         <tr>
                             <td>通讯地址</td>
