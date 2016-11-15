@@ -26,12 +26,13 @@ namespace Correcting.Controllers.api
             var user = User.Identity.GetEmoloyee();
             if (user.Name == "admin")
             {
-                var allData = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved != true).OrderBy(n => n.DateTime).ToList();
+                var allData = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved != true).OrderBy(n => n.TaskCode).ThenByDescending(n=>n.IsPrimary).ToList();
                 var models = allData.Select(n => new CorrectingInsModel
                 {
                     Id = n.Id,
                     TaskId = n.TaskId,
                     TaskCode = n.TaskCode,
+                    IsPrimary=n.IsPrimary,
                     EmployeeModel = new EmployeeModel { Name = n.EmpName, Code = n.EmpCode },
                     DateTime = n.DateTime,
                     InstitutionModel = new InstitutionModel
@@ -49,7 +50,8 @@ namespace Correcting.Controllers.api
                         InstitutionType = n.InsType,
                         Beds = n.Beds,
                         Outpatients = n.Outpatients,
-                        Parent = n.ParentId != null ? new InstitutionModel { Name = n.ParentInstitution.Name, LocationName = n.ParentInstitution.LocationName } : null
+                        Parent = n.ParentId != null ? new InstitutionModel { Name = n.ParentInstitution.Name, LocationName = n.ParentInstitution.LocationName } : null,
+                        Childrens = allData.Where(p => p.ParentId == n.OriginalId && n.OriginalId != null).Select(p => new InstitutionModel { Name = p.Name }).ToArray()
                     },
                     OriginalInstitutionModel = n.OriginalId != null ? new InstitutionModel
                     {
@@ -58,8 +60,8 @@ namespace Correcting.Controllers.api
                         LocationCode = n.OriginalInstitution.LocationCode,
                         LocationName = n.OriginalInstitution.LocationName,
                         Address = n.OriginalInstitution.Address,
-                        LevelName = n.OriginalInstitution.LevelName,
-                        TierName = n.OriginalInstitution.TierId != null ? n.OriginalInstitution.TierName.ToChineseNumerals() : null
+                        LevelName = n.OriginalInstitution.LevelName == "未知" ? "无等次" : n.OriginalInstitution.LevelName,
+                        TierName = n.OriginalInstitution.TierId != null ? (n.OriginalInstitution.TierName == "未知" ? "无级别" : n.OriginalInstitution.TierName.ToChineseNumerals() + "级") : null
                     } : null,
                     WhetherToAdd = n.OriginalId == null,
                     IsApproved = n.IsApproved,

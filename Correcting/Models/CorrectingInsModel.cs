@@ -13,8 +13,11 @@ namespace Correcting.Models
         public EmployeeModel EmployeeModel { get; set; }
         public InstitutionModel InstitutionModel { get; set; }
         public InstitutionModel OriginalInstitutionModel { get; set; }
-
         public bool WhetherToAdd { get; set; }
+        /// <summary>
+        /// 主要的
+        /// </summary>
+        public bool IsPrimary { get; set; }
         public DateTime DateTime { get; set; }
         public bool? IsApproved { get; set; }
         public bool? IsDeleted { get; set; }

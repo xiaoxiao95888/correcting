@@ -66,6 +66,18 @@ namespace Correcting.Models
         public bool Checked { get { return true; } }
         public InstitutionModel Parent { get; set; }
         public InstitutionModel[] Childrens { get; set; }
+        public string ChildrenNames
+        {
+            get
+            {
+                var str = string.Empty;
+                if (Childrens != null)
+                {
+                    str = string.Join(",", Childrens.Select(n => n.Name));
+                }
+                return str;
+            }
+        }
 
     }
     

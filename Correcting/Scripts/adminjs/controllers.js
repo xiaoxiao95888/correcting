@@ -41,5 +41,6 @@ angular.module('starter.controllers', [])
     $scope.delete = function () {
         $scope.correctingIns.IsDeleted = true;
         $scope.update()
-    }
+    }  
+    
 }]);
