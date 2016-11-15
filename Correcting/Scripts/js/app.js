@@ -7,7 +7,7 @@ angular.module('starter', ['ui.router', 'ngAnimate', 'starter.services', 'starte
            controller: 'InstitutionsCtrl'
        })
       .state('detail', {
-          url: '/',
+          url: '/detail',
           params: {
               id: null,
               reload: false,
@@ -17,29 +17,29 @@ angular.module('starter', ['ui.router', 'ngAnimate', 'starter.services', 'starte
           controller: 'DetailCtrl'
       })
       .state('selectParentIns', {
-          url: '/',
+          url: '/selectParentIns',
           templateUrl: '/mobile/selectParentIns',
           controller: 'SelectInsCtrl'
       })
        .state('selectLocation', {
            params: { actiontype: null },
-           url: '/',
+           url: '/selectLocation',
            templateUrl: '/mobile/selectLocation',
            controller: 'SelectLocationCtrl'
        })
       .state('selectChildrens', {
-          url: '/',
+          url: '/selectChildrens',
           templateUrl: '/mobile/selectChildrens',
           controller: 'SelectInsCtrl'
       })
       .state('create', {
-          url: '/',
+          url: '/create',
           params: { actiontype: 'create' },
           templateUrl: '/mobile/create',
           controller: 'DetailCtrl'
       })
       .state('scoreboard', {
-          url: '/',         
+          url: '/scoreboard',
           templateUrl: '/mobile/scoreboard',
           controller: 'ScoreBoardCtrl'
       })

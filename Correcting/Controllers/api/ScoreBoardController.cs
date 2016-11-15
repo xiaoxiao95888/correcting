@@ -26,8 +26,11 @@ namespace Correcting.Controllers.api
         }
         public object Get()
         {
-            var source = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved == true).GroupBy(n => n.EmpCode).Select(n => new ScoreBoardModel { EmpCode = n.Key, Score = n.GroupBy(p => p.TaskId).Count(), EmpName = n.Select(p => p.EmpName).FirstOrDefault() }).OrderBy(n => n.Score).Take(20).ToList();           
-           
+            //var source = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved == true).GroupBy(n => n.EmpCode).Select(n => new ScoreBoardModel { EmpCode = n.Key, Score = n.GroupBy(p => p.TaskId).Count(), EmpName = n.Select(p => p.EmpName).FirstOrDefault() }).OrderBy(n => n.Score).Take(20).ToList();           
+            var noapproved = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved != true);
+            var data = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved == true && n.IsDeleted != true);
+            var source = data.Where(n => n.IsPrimary && noapproved.Any(p => p.TaskId == n.TaskId)==false).GroupBy(n => n.EmpCode).Select(n => new ScoreBoardModel { EmpCode = n.Key, Score = n.GroupBy(p => p.TaskId).Count(), EmpName = n.Select(p => p.EmpName).FirstOrDefault() }).OrderBy(n => n.Score).Take(20).ToList();
+
             return source;
 
         }
