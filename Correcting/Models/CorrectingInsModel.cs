@@ -12,6 +12,8 @@ namespace Correcting.Models
         public int TaskCode { get; set; }
         public EmployeeModel EmployeeModel { get; set; }
         public InstitutionModel InstitutionModel { get; set; }
+        public InstitutionModel OriginalInstitutionModel { get; set; }
+
         public bool WhetherToAdd { get; set; }
         public DateTime DateTime { get; set; }
         public bool? IsApproved { get; set; }

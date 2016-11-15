@@ -26,7 +26,7 @@ namespace Correcting.Controllers.api
             var user = User.Identity.GetEmoloyee();
             if (user.Name == "admin")
             {
-                var allData = _correctingInsService.GetCorrectingInss().Where(n=>n.IsApproved!=true).OrderBy(n => n.DateTime).ToList();
+                var allData = _correctingInsService.GetCorrectingInss().Where(n => n.IsApproved != true).OrderBy(n => n.DateTime).ToList();
                 var models = allData.Select(n => new CorrectingInsModel
                 {
                     Id = n.Id,
@@ -36,22 +36,31 @@ namespace Correcting.Controllers.api
                     DateTime = n.DateTime,
                     InstitutionModel = new InstitutionModel
                     {
-                        Name = n.Name,
-                        TelNum = n.TelNum,
-                        LocationCode = n.LocationCode,
-                        LocationName = n.LocationName,
-                        Address = n.Address,
+                        Name = n.OriginalInstitution != null ? n.OriginalInstitution.Name : n.Name,
+                        TelNum = n.OriginalInstitution != null ? n.OriginalInstitution.TelNum : n.TelNum,
+                        LocationCode = n.OriginalInstitution != null ? n.OriginalInstitution.LocationCode : n.LocationCode,
+                        LocationName = n.OriginalInstitution != null ? n.OriginalInstitution.LocationName : n.LocationName,
+                        Address = n.OriginalInstitution != null ? n.OriginalInstitution.Address : n.Address,
                         SpecializedDepartment = n.InsSpecializedDepartment,
-                        LevelName = n.InsLevel,
-                        TierName=n.InsTier,
+                        LevelName = (n.OriginalInstitution != null && n.OriginalInstitution.LevelId != null) ? n.OriginalInstitution.LevelName : n.InsLevel,
+                        TierName = (n.OriginalInstitution != null && n.OriginalInstitution.TierId != null) ? n.OriginalInstitution.TierName.ToChineseNumerals() : n.InsTier,
                         Nature = n.InsNature,
                         Attribute = n.InsAttribute,
                         InstitutionType = n.InsType,
                         Beds = n.Beds,
                         Outpatients = n.Outpatients,
                         Parent = n.ParentId != null ? new InstitutionModel { Name = n.ParentInstitution.Name, LocationName = n.ParentInstitution.LocationName } : null
-
                     },
+                    OriginalInstitutionModel = n.OriginalId != null ? new InstitutionModel
+                    {
+                        Name = n.OriginalInstitution.Name,
+                        TelNum = n.OriginalInstitution.TelNum,
+                        LocationCode = n.OriginalInstitution.LocationCode,
+                        LocationName = n.OriginalInstitution.LocationName,
+                        Address = n.OriginalInstitution.Address,
+                        LevelName = n.OriginalInstitution.LevelName,
+                        TierName = n.OriginalInstitution.TierId != null ? n.OriginalInstitution.TierName.ToChineseNumerals() : null
+                    } : null,
                     WhetherToAdd = n.OriginalId == null,
                     IsApproved = n.IsApproved,
                     IsDeleted = n.IsDeleted
