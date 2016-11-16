@@ -40,9 +40,10 @@ namespace Correcting.Controllers.api
                     Address = p.SalesPosition.Institution.Address,
                     //LevelName = p.SalesPosition.Institution.Level != null ? (p.SalesPosition.Institution.Level.Name == "未知" ? "无等次" : p.SalesPosition.Institution.Level.Name) : null,
                     //TierName = p.SalesPosition.Institution.Tier != null ? (p.SalesPosition.Institution.Tier.Name == "未知" ? "无级别" : p.SalesPosition.Institution.Tier.Name.ToChineseNumerals() + "级") : null
-                }).OrderBy(n => n.Name).ToArray()
+                }).Distinct(p=>p.Id).OrderBy(n => n.Name).ToArray()
             };
             return model;
         }
     }
+    
 }
