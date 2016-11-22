@@ -22,7 +22,8 @@ namespace Correcting.Controllers.api
         public object Get()
         {
             var user = User.Identity.GetEmoloyee();
-            var emp = _employeeService.GetEmployees().Where(n => !n.IsDeleted).Where(n => n.Code == user.Code).FirstOrDefault();
+            var emp = _employeeService.GetEmployees().Where(n => !n.IsDeleted).FirstOrDefault(n => n.Code == user.Code);
+            var datenow=new DateTime(DateTime.Now.Year,DateTime.Now.Month,1);
             var model = new EmployeeInstiutionModel
             {
                 EmployeeModel = new EmployeeModel
@@ -33,7 +34,7 @@ namespace Correcting.Controllers.api
                     Code = emp.Code,
                     HeadImgUrl = user.HeadImgUrl
                 },
-                InstitutionModels = emp.EmployeeTerritories.Where(p => p.StartDate <= DateTime.Now && (p.EndDate >= DateTime.Now || p.EndDate == null)).SelectMany(p => p.Territory.TerritorySalesPositions.Where(s => s.IsDeleted == false && s.IsDeleted == false && s.StartDate <= DateTime.Now && (s.EndDate == null || s.EndDate >= DateTime.Now) && s.SalesPosition.Institution.IsDeleted == false && s.SalesPosition.Institution.IsApproved)).Select(p => new InstitutionModel
+                InstitutionModels = emp.EmployeeTerritories.Where(p => p.StartDate <= datenow && (p.EndDate >= datenow || p.EndDate == null)).SelectMany(p => p.Territory.TerritorySalesPositions.Where(s => s.IsDeleted == false &&  s.StartDate <= datenow && (s.EndDate == null || s.EndDate >= datenow) && s.SalesPosition.Institution.IsDeleted == false && s.SalesPosition.Institution.IsApproved)).Select(p => new InstitutionModel
                 {
                     Id = p.SalesPosition.Institution.Id,
                     Name = p.SalesPosition.Institution.Name,
