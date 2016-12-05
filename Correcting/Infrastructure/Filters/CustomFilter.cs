@@ -24,7 +24,8 @@ namespace Correcting.Infrastructure.Filters
                 var signature = filterContext.Request.Headers.GetValues("Signature").FirstOrDefault();
                 var requestTime = filterContext.Request.Headers.GetValues("RequestTime").FirstOrDefault();
                 var time = Convert.ToDateTime(requestTime);
-                if (DateTime.Now.AddHours(-10) > time)
+                var timeout = Convert.ToInt32(ConfigurationManager.AppSettings["RequestTimeOut"]);
+                if (DateTime.Now.AddSeconds(-timeout) > time)
                 {
                     throw new Exception("overtime");
                 }
