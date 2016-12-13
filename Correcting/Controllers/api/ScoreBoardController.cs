@@ -41,7 +41,7 @@ namespace Correcting.Controllers.api
                                Score = n.Where(p => p.IsPrimary).Select(p => (p.LocationCode != null && p.InsTier != null && p.InsLevel != null && p.InsNature != null && p.InsAttribute != null && p.InsType != null) ? 2 : 1).Sum(),
                                EmpName = n.Select(p => p.EmpName).FirstOrDefault()
                            })
-                   .OrderBy(n => n.Score)
+                   .OrderByDescending(n => n.Score)
                    .Take(20)
                    .ToList();
             return source;
